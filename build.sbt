@@ -12,8 +12,7 @@ concurrentRestrictions in Global += Tags.limitAll(1)
 
 val jacksonOneVersion = "1.9.13"
 // See https://github.com/druid-io/druid/pull/1669, https://github.com/druid-io/tranquility/pull/81 before upgrading Jackson
-val jacksonTwoVersion = "2.4.6"
-val jacksonTwoModuleScalaVersion = "2.4.5"
+val jacksonTwoVersion = "2.6.1"
 val druidVersion = "0.8.2"
 val flinkVersion = "0.10.1"
 val finagleVersion = "6.31.0"
@@ -60,7 +59,7 @@ val coreDependencies = Seq(
   "com.fasterxml.jackson.core" % "jackson-databind" % jacksonTwoVersion force(),
   "com.fasterxml.jackson.dataformat" % "jackson-dataformat-smile" % jacksonTwoVersion force(),
   "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % jacksonTwoVersion force(),
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonTwoModuleScalaVersion force()
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonTwoVersion force()
 ) ++ Seq(
   dependOnDruid("druid-server"),
   "com.google.inject" % "guice" % "4.0-beta" force(),
