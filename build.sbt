@@ -177,7 +177,7 @@ lazy val commonSettings = Seq(
 
   publishMavenStyle := true,
 
-  publishTo := Some("releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2/"),
+  publishTo := Some("releases" at "http://maven.m6r.eu:65056/repository/snapshots/"),
 
   pomIncludeRepository := { _ => false },
 
