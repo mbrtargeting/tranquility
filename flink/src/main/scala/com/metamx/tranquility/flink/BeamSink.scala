@@ -19,24 +19,48 @@
 package com.metamx.tranquility.flink
 
 import com.metamx.common.scala.Logging
-import com.metamx.tranquility.tranquilizer.SimpleTranquilizerAdapter
+import com.metamx.tranquility.tranquilizer.MessageDroppedException
+import com.metamx.tranquility.tranquilizer.Tranquilizer
+import com.twitter.util.Return
+import com.twitter.util.Throw
+import java.util.concurrent.atomic.AtomicReference
+import org.apache.flink.api.common.accumulators.LongCounter
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction
 
 /**
   * This class provides a sink that can propagate any event type to Druid.
+  *
   * @param beamFactory your implementation of [[BeamFactory]].
   */
 class BeamSink[T](beamFactory: BeamFactory[T])
   extends RichSinkFunction[T] with Logging
 {
-  var sender: Option[SimpleTranquilizerAdapter[T]] = None
+  val sender = new AtomicReference[Tranquilizer[T]]()
+  val total = new LongCounter()
+  val accepted = new LongCounter()
+  val dropped = new LongCounter()
 
   override def open(parameters: Configuration) = {
-    sender = Some(beamFactory.tranquilizer.simple(false))
+    getRuntimeContext.addAccumulator("Druid: Total", total)
+    getRuntimeContext.addAccumulator("Druid: Accepted", accepted)
+    getRuntimeContext.addAccumulator("Druid: Dropped", dropped)
+    sender.set(beamFactory.tranquilizer)
+    sender.get.start()
+
   }
 
-  override def invoke(value: T) = sender.get.send(value)
+  override def invoke(value: T) = {
+    total.add(1)
+    sender.get.send(value) respond {
+      case Return(()) => accepted.add(1)
+      case Throw(e: MessageDroppedException) =>
+        dropped.add(1)
+      case Throw(e) =>
+        dropped.add(1)
+        log.error("Failed to send message to Druid.", e)
+    }
+  }
 
-  override def close() = sender.get.flush()
+  override def close() = sender.get.stop()
 }

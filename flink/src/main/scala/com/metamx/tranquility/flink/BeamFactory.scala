@@ -35,9 +35,7 @@ trait BeamFactory[EventType] extends Serializable
   def makeBeam: Beam[EventType]
 
   @transient final lazy val tranquilizer: Tranquilizer[EventType] = {
-    val t = Tranquilizer.create(makeBeam)
-    t.start()
-    t
+    Tranquilizer.create(makeBeam)
   }
 
 }
