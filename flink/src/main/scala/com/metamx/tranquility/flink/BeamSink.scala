@@ -40,14 +40,15 @@ class BeamSink[T](beamFactory: BeamFactory[T])
   val total = new LongCounter()
   val accepted = new LongCounter()
   val dropped = new LongCounter()
+  val exceptions = new LongCounter()
 
   override def open(parameters: Configuration) = {
     getRuntimeContext.addAccumulator("Druid: Total", total)
     getRuntimeContext.addAccumulator("Druid: Accepted", accepted)
     getRuntimeContext.addAccumulator("Druid: Dropped", dropped)
+    getRuntimeContext.addAccumulator("Druid: Exceptions", exceptions)
     sender.set(beamFactory.tranquilizer)
     sender.get.start()
-
   }
 
   override def invoke(value: T) = {
@@ -57,7 +58,7 @@ class BeamSink[T](beamFactory: BeamFactory[T])
       case Throw(e: MessageDroppedException) =>
         dropped.add(1)
       case Throw(e) =>
-        dropped.add(1)
+        exceptions.add(1)
         log.error("Failed to send message to Druid.", e)
     }
   }
