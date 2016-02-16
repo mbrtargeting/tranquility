@@ -56,10 +56,11 @@ class BeamSink[T](beamFactory: BeamFactory[T])
     sender.get.send(value) respond {
       case Return(()) => accepted.add(1)
       case Throw(e: MessageDroppedException) =>
+        log.warn(e, "Message was dropped by druid")
         dropped.add(1)
       case Throw(e) =>
         exceptions.add(1)
-        log.error("Failed to send message to Druid.", e)
+        log.error(e, "Failed to send message to Druid.")
     }
   }
 
