@@ -91,7 +91,8 @@ class ClusteredBeam[EventType: Timestamper, InnerBeamType <: Beam[EventType]](
   beamMaker: BeamMaker[EventType, InnerBeamType],
   beamDecorateFn: (Interval, Int) => Beam[EventType] => Beam[EventType],
   beamMergeFn: Seq[Beam[EventType]] => Beam[EventType],
-  alertMap: Dict
+  alertMap: Dict,
+  ignoreLatestCloseTime: Boolean
 ) extends Beam[EventType] with Logging
 {
   require(tuning.partitions > 0, "tuning.partitions > 0")
@@ -220,7 +221,7 @@ class ClusteredBeam[EventType: Timestamper, InnerBeamType <: Beam[EventType]](
                 prevBeamDicts.size
               )
               prev
-            } else if (timestamp <= prev.latestCloseTime) {
+            } else if (!ignoreLatestCloseTime && timestamp <= prev.latestCloseTime) {
               log.info(
                 "Global latestCloseTime[%s] for identifier[%s] has moved past timestamp[%s], not creating merged beam",
                 prev.latestCloseTime,
@@ -230,7 +231,7 @@ class ClusteredBeam[EventType: Timestamper, InnerBeamType <: Beam[EventType]](
               prev
             } else {
               assert(prevBeamDicts.size < tuning.partitions)
-              assert(timestamp > prev.latestCloseTime)
+//              assert(timestamp > prev.latestCloseTime)
 
               // We might want to cover multiple time segments in advance.
               val numSegmentsToCover = tuning.minSegmentsPerBeam +
