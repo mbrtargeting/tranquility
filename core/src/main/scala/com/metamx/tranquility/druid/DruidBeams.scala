@@ -522,6 +522,10 @@ object DruidBeams
       new Builder[EventType](config.copy(_objectWriter = Some(ObjectWriter.wrap(writer))))
     }
 
+    def ignoreLatestCloseTime() = {
+      new Builder[EventType](config.copy(_ignoreLatestCloseTime = Some(true)))
+    }
+
     def eventTimestamped(timeFn: EventType => DateTime) = {
       new Builder[EventType](
         config.copy(
@@ -571,7 +575,8 @@ object DruidBeams
         druidBeamMaker,
         things.beamDecorateFn,
         things.beamMergeFn,
-        things.alertMap
+        things.alertMap,
+        things.ignoreLatestCloseTime
       )
       if (things.curatorOwned) {
         things.curator.start()
@@ -653,7 +658,8 @@ object DruidBeams
     _beamMergeFn: Option[Seq[Beam[EventType]] => Beam[EventType]] = None,
     _alertMap: Option[Dict] = None,
     _objectWriter: Option[ObjectWriter[EventType]] = None,
-    _timestamper: Option[Timestamper[EventType]] = None
+    _timestamper: Option[Timestamper[EventType]] = None,
+    _ignoreLatestCloseTime: Option[Boolean] = None
   )
   {
     def buildAll() = new {
@@ -730,6 +736,8 @@ object DruidBeams
           new MergingPartitioningBeam[EventType](partitioner, beams.toIndexedSeq)
         }
       }
+
+      val ignoreLatestCloseTime = _ignoreLatestCloseTime getOrElse false
     }
   }
 

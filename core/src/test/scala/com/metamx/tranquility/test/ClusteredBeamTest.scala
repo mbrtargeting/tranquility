@@ -192,7 +192,8 @@ class ClusteredBeamTest extends FunSuite with CuratorRequiringSuite with BeforeA
         beamMaker,
         (interval: Interval, partition: Int) => (beam: Beam[SimpleEvent]) => beam,
         (xs: Seq[Beam[SimpleEvent]]) => new RoundRobinBeam(xs.toIndexedSeq),
-        Map.empty
+        Map.empty,
+        false
       ),
       beamMaker,
       timekeeper
