@@ -721,6 +721,10 @@ object DruidBeams
       new Builder[InputType, EventType](config.copy(_ignoreLatestCloseTime = Some(true)))
     }
 
+    def shutoffTime(shutoffTime: DateTime) = {
+      new Builder[InputType, EventType](config.copy(_shutoffTime = Some(shutoffTime)))
+    }
+
     def eventTimestamped(timeFn: EventType => DateTime) = {
       new Builder[InputType, EventType](
         config.copy(
@@ -757,7 +761,8 @@ object DruidBeams
         things.indexService,
         things.emitter,
         things.objectWriter,
-        things.druidObjectMapper
+        things.druidObjectMapper,
+        things.shutoffTime
       )
       val clusteredBeam = new ClusteredBeam(
         things.clusteredBeamZkBasePath,
@@ -861,7 +866,8 @@ object DruidBeams
     _alertMap: Option[Dict] = None,
     _objectWriter: Option[ObjectWriter[EventType]] = None,
     _timestamper: Option[Timestamper[EventType]] = None,
-    _ignoreLatestCloseTime: Option[Boolean] = None
+    _ignoreLatestCloseTime: Option[Boolean] = None,
+    _shutoffTime: Option[DateTime] = None
   )
   {
     def buildAll() = new {
@@ -958,6 +964,7 @@ object DruidBeams
       }
 
       val ignoreLatestCloseTime = _ignoreLatestCloseTime getOrElse false
+      val shutoffTime = _shutoffTime
     }
   }
 

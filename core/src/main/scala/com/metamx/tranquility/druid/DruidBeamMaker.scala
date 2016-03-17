@@ -48,7 +48,8 @@ class DruidBeamMaker[A](
   indexService: IndexService,
   emitter: ServiceEmitter,
   objectWriter: ObjectWriter[A],
-  druidObjectMapper: ObjectMapper
+  druidObjectMapper: ObjectMapper,
+  shutoffTime: Option[DateTime] = None
 ) extends BeamMaker[A, DruidBeam[A]] with Logging
 {
   private[tranquility] def taskBytes(
@@ -69,7 +70,7 @@ class DruidBeamMaker[A](
       ""
     }
     val taskId = "index_realtime_%s_%s_%s_%s%s" format(dataSource, interval.start, partition, replicant, suffix)
-    val shutoffTime = interval.end + beamTuning.windowPeriod + config.firehoseGracePeriod
+    val shutoffTime = this.shutoffTime.getOrElse(interval.end + beamTuning.windowPeriod + config.firehoseGracePeriod)
     val queryGranularityMap = druidObjectMapper.convertValue(
       rollup.indexGranularity,
       classOf[ju.Map[String, AnyRef]]
