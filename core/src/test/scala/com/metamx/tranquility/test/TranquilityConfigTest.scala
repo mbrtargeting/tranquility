@@ -50,9 +50,10 @@ class TranquilityConfigTest extends FunSuite with ShouldMatchers
     fooConfig.propertiesBasedConfig.druidBeamConfig.firehoseGracePeriod should be(new Period("PT5M"))
 
     for (builder <- makeBuilders(fooConfig.specMap)) {
-      builder.config._location.get.dataSource should be(DataSource)
-      builder.config._rollup.get.aggregators.map(_.getName) should be(Seq("count", "x"))
-      builder.config._druidTuningMap.get should be(Dict(
+      val things = builder.buildAll()
+      things.location.dataSource should be(DataSource)
+      things.rollup.aggregators.map(_.getName) should be(Seq("count", "x"))
+      things.druidTuningMap should be(Dict(
         "type" -> "realtime",
         "maxRowsInMemory" -> 100000,
         "buildV9Directly" -> true,
@@ -60,7 +61,7 @@ class TranquilityConfigTest extends FunSuite with ShouldMatchers
         "windowPeriod" -> "PT30S",
         "maxPendingPersists" -> 0
       ))
-      builder.config._tuning.get.windowPeriod should be(new Period("PT30S"))
+      things.tuning.windowPeriod should be(new Period("PT30S"))
     }
   }
 
@@ -79,9 +80,10 @@ class TranquilityConfigTest extends FunSuite with ShouldMatchers
     fooConfig.propertiesBasedConfig.druidBeamConfig.firehoseGracePeriod should be(new Period("PT5M"))
 
     for (builder <- makeBuilders(fooConfig.specMap)) {
-      builder.config._location.get.dataSource should be(DataSource)
-      builder.config._rollup.get.aggregators.map(_.getName) should be(Seq("count", "x"))
-      builder.config._druidTuningMap.get should be(Dict(
+      val things = builder.buildAll()
+      things.location.dataSource should be(DataSource)
+      things.rollup.aggregators.map(_.getName) should be(Seq("count", "x"))
+      things.druidTuningMap should be(Dict(
         "type" -> "realtime",
         "maxRowsInMemory" -> 100000,
         "buildV9Directly" -> true,
@@ -89,7 +91,7 @@ class TranquilityConfigTest extends FunSuite with ShouldMatchers
         "windowPeriod" -> "PT30S",
         "maxPendingPersists" -> 0
       ))
-      builder.config._tuning.get.windowPeriod should be(new Period("PT30S"))
+      things.tuning.windowPeriod should be(new Period("PT30S"))
     }
   }
 
@@ -108,9 +110,10 @@ class TranquilityConfigTest extends FunSuite with ShouldMatchers
     fooConfig.propertiesBasedConfig.druidBeamConfig.firehoseGracePeriod should be(new Period("PT5M"))
 
     for (builder <- makeBuilders(fooConfig.specMap)) {
-      builder.config._location.get.dataSource should be(DataSource)
-      builder.config._rollup.get.aggregators.map(_.getName) should be(Seq("count", "x"))
-      builder.config._druidTuningMap.get should be(Dict(
+      val things = builder.buildAll()
+      things.location.dataSource should be(DataSource)
+      things.rollup.aggregators.map(_.getName) should be(Seq("count", "x"))
+      things.druidTuningMap should be(Dict(
         "type" -> "realtime",
         "maxRowsInMemory" -> 100000,
         "buildV9Directly" -> true,
@@ -118,7 +121,7 @@ class TranquilityConfigTest extends FunSuite with ShouldMatchers
         "windowPeriod" -> "PT30S",
         "maxPendingPersists" -> 0
       ))
-      builder.config._tuning.get.windowPeriod should be(new Period("PT30S"))
+      things.tuning.windowPeriod should be(new Period("PT30S"))
     }
   }
 
@@ -137,16 +140,17 @@ class TranquilityConfigTest extends FunSuite with ShouldMatchers
     fooConfig.propertiesBasedConfig.druidBeamConfig.firehoseGracePeriod should be(new Period("PT5M"))
 
     for (builder <- makeBuilders(fooConfig.specMap)) {
-      builder.config._location.get.dataSource should be(DataSource)
-      builder.config._rollup.get.aggregators.map(_.getName) should be(Seq("count", "x"))
-      builder.config._druidTuningMap.get should be(Dict(
+      val things = builder.buildAll()
+      things.location.dataSource should be(DataSource)
+      things.rollup.aggregators.map(_.getName) should be(Seq("count", "x"))
+      things.druidTuningMap should be(Dict(
         "type" -> "realtime",
         "maxRowsInMemory" -> 75000,
         "buildV9Directly" -> false,
         "intermediatePersistPeriod" -> "PT10M",
         "maxPendingPersists" -> 0
       ))
-      builder.config._tuning.get.windowPeriod should be(new Period("PT10M"))
+      things.tuning.windowPeriod should be(new Period("PT10M"))
     }
   }
 

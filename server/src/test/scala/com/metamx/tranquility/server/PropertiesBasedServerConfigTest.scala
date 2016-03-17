@@ -21,7 +21,6 @@ package com.metamx.tranquility.server
 
 import com.metamx.tranquility.config.TranquilityConfig
 import com.metamx.tranquility.druid.DruidBeams
-import com.metamx.tranquility.druid.DruidEnvironment
 import org.joda.time.Period
 import org.scalatest.FunSuite
 import org.scalatest.ShouldMatchers
@@ -45,9 +44,10 @@ class PropertiesBasedServerConfigTest extends FunSuite with ShouldMatchers
     fooConfig.propertiesBasedConfig.druidBeamConfig.firehoseGracePeriod should be(new Period("PT1S"))
 
     val builder = DruidBeams.fromConfig(fooConfig)
-    builder.config._location.get.dataSource should be("foo")
-    builder.config._rollup.get.aggregators.map(_.getName) should be(Seq("count", "x"))
-    builder.config._druidTuningMap.get should be(Map(
+    val things = builder.buildAll()
+    things.location.dataSource should be("foo")
+    things.rollup.aggregators.map(_.getName) should be(Seq("count", "x"))
+    things.druidTuningMap should be(Map(
       "type" -> "realtime",
       "maxRowsInMemory" -> 100000,
       "buildV9Directly" -> true,
@@ -55,6 +55,6 @@ class PropertiesBasedServerConfigTest extends FunSuite with ShouldMatchers
       "windowPeriod" -> "PT30S",
       "maxPendingPersists" -> 0
     ))
-    builder.config._tuning.get.windowPeriod should be(new Period("PT30S"))
+    things.tuning.windowPeriod should be(new Period("PT30S"))
   }
 }
