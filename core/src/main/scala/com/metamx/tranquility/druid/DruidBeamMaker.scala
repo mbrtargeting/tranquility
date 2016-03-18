@@ -33,7 +33,9 @@ import io.druid.data.input.impl.TimestampSpec
 import java.{util => ju}
 import org.joda.time.DateTime
 import org.joda.time.Interval
+import org.joda.time.DateTimeZone
 import org.joda.time.chrono.ISOChronology
+import org.joda.time.format.DateTimeFormat
 import org.scala_tools.time.Implicits._
 import scala.util.Random
 
@@ -241,23 +243,18 @@ object DruidBeamMaker
     // Not only is this a nasty hack, it also only works if the RT task hands things off in a timely manner. We'd rather
     // use UUIDs, but this creates a ton of clutter in service discovery.
 
-    val tsUtc = new DateTime(ts.millis, ISOChronology.getInstanceUTC)
+    val tsUtc = ts.withZone(DateTimeZone.UTC)
 
-    val cycleBucket = segmentGranularity match {
-      case Granularity.SECOND => (tsUtc.minuteOfHour().get * 60 + tsUtc.secondOfMinute().get) % 900 // 900 buckets
-      case Granularity.MINUTE => tsUtc.hourOfDay().get % 3 * 60 + tsUtc.minuteOfHour().get // 180 buckets
-      case Granularity.FIVE_MINUTE => tsUtc.hourOfDay().get % 3 * 60 + tsUtc.minuteOfHour().get // 36 buckets
-      case Granularity.TEN_MINUTE => tsUtc.hourOfDay().get % 3 * 60 + tsUtc.minuteOfHour().get // 18 buckets
-      case Granularity.FIFTEEN_MINUTE => tsUtc.hourOfDay().get % 3 * 60 + tsUtc.minuteOfHour().get // 12 buckets
-      case Granularity.HOUR => tsUtc.hourOfDay().get
-      case Granularity.SIX_HOUR => tsUtc.hourOfDay().get
-      case Granularity.DAY => tsUtc.dayOfMonth().get
-      case Granularity.WEEK => tsUtc.weekOfWeekyear().get
-      case Granularity.MONTH => tsUtc.monthOfYear().get
-      case Granularity.YEAR => tsUtc.yearOfCentury().get
-      case x => throw new IllegalArgumentException("No gross firehose id hack for granularity[%s]" format x)
-    }
+    val dateFormat = DateTimeFormat.forPattern(segmentGranularity match {
+      case Granularity.YEAR => "yyyy"
+      case Granularity.MONTH => "yyyy-MM"
+      case Granularity.WEEK => "yyyy-MM-dd"
+      case Granularity.DAY => "yyyy-MM-dd"
+      case Granularity.SIX_HOUR => "yyyy-MM-dd-kk"
+      case Granularity.HOUR => "yyyy-MM-dd-kk"
+      case _ => "yyyy-MM-dd-kk-mm"
+    })
 
-    "%s-%03d-%04d".format(dataSource, cycleBucket, partition)
+    "%s-%s-%04d".format(dataSource, dateFormat.print(tsUtc), partition)
   }
 }
