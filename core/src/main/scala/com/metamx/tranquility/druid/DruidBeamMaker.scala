@@ -69,7 +69,7 @@ class DruidBeamMaker[A](
       val suffix0 = (0 until 8).map(i => (rand >> (i * 4)) & 0x0F).map(n => ('a' + n).toChar).mkString
       "_%s" format suffix0
     } else {
-      ""
+      config.taskIdSuffix
     }
     val taskId = "index_realtime_%s_%s_%s_%s%s" format(dataSource, interval.start, partition, replicant, suffix)
     val shutoffTime = this.shutoffTime.getOrElse(interval.end + beamTuning.windowPeriod + config.firehoseGracePeriod)

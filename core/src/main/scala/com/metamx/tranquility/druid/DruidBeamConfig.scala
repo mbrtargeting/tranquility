@@ -30,7 +30,8 @@ case class DruidBeamConfig(
   firehoseBufferSize: Int = 100000,
   overlordLocator: String = OverlordLocator.Curator,
   taskLocator: String = TaskLocator.Curator,
-  overlordPollPeriod: Period = 20.seconds
+  overlordPollPeriod: Period = 20.seconds,
+  taskIdSuffix: String = ""
 ) extends IndexServiceConfig
 
 object DruidBeamConfig
@@ -82,6 +83,13 @@ object DruidBeamConfig
       * Default is false.
       */
     def randomizeTaskId(x: Boolean) = new Builder(config.copy(randomizeTaskId = x))
+
+    /**
+      * Set this if you want to rerun a task, but also have to know the task_name.
+      *
+      * Default is "".
+      */
+    def taskIdSuffix(x: String) = new Builder(config.copy(taskIdSuffix = x))
 
     /**
       * If an indexing service overlord call fails for some apparently-transient reason, retry for this long before
