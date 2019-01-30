@@ -1,4 +1,4 @@
-scalaVersion in ThisBuild := "2.11.8"
+scalaVersion in ThisBuild := "2.12.8"
 
 // Disable parallel execution, the various Druid oriented tests need to claim ports
 parallelExecution in ThisBuild := false
@@ -11,17 +11,17 @@ concurrentRestrictions in Global += Tags.limitAll(1)
 val jacksonOneVersion = "1.9.13"
 // See https://github.com/druid-io/druid/pull/1669, https://github.com/druid-io/tranquility/pull/81 before upgrading Jackson
 val jacksonTwoVersion = "2.4.6"
-val jacksonTwoModuleScalaVersion = "2.4.5"
+val jacksonTwoModuleScalaVersion = "2.9.8"
 val druidVersion = "0.9.2"
 val curatorVersion = "2.12.0"
 val guiceVersion = "4.0"
-val flinkVersion = "1.0.3"
+val flinkVersion = "1.7.1"
 val finagleVersion = "6.43.0"
 val finagleHttpAuthVersion = "0.1.0"
 val twitterUtilVersion = "6.42.0"
-val samzaVersion = "0.12.0"
-val sparkVersion = "1.6.0"
-val scalatraVersion = "2.3.1"
+val samzaVersion = "0.14.1"
+val sparkVersion = "2.4.0"
+val scalatraVersion = "2.6.4"
 val jettyVersion = "9.2.5.v20141112"
 val apacheHttpVersion = "4.3.3"
 val kafkaVersion = "0.10.1.1"
@@ -110,7 +110,7 @@ val stormDependencies = Seq(
     exclude("ch.qos.logback", "logback-classic")
     exclude("org.slf4j", "log4j-over-slf4j")
     force(),
-  "com.twitter" %% "chill" % "0.7.1" % "optional"
+  "com.twitter" %% "chill" % "0.9.3" % "optional"
 )
 
 val samzaDependencies = Seq(
@@ -139,7 +139,7 @@ val kafkaDependencies = Seq(
 ) ++ loggingDependencies
 
 val coreTestDependencies = Seq(
-  "org.scalatest" %% "scalatest" % "2.2.5" % "test",
+  "org.scalatest" %% "scalatest" % "3.0.5" % "test",
   dependOnDruid("druid-services") % "test",
   "org.apache.curator" % "curator-test" % curatorVersion % "test" exclude("log4j", "log4j") force(),
   "com.sun.jersey" % "jersey-servlet" % "1.17.1" % "test" force(),
