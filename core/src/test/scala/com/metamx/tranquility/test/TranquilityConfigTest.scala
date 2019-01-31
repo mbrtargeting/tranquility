@@ -31,7 +31,7 @@ import org.joda.time.Period
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
-class TranquilityConfigTest extends FunSuite with ShouldMatchers
+class TranquilityConfigTest extends FunSuite with Matchers
 {
   val DataSource = "foo"
 

@@ -25,7 +25,7 @@ import org.scalatest.FunSuite
 import org.scalatest.Matchers
 import scala.collection.JavaConverters._
 
-class InputRowTimestamperTest extends FunSuite with ShouldMatchers
+class InputRowTimestamperTest extends FunSuite with Matchers
 {
   val row = new MapBasedInputRow(
     new DateTime("2000"),

@@ -26,7 +26,7 @@ import org.joda.time.Period
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
-class PropertiesBasedServerConfigTest extends FunSuite with ShouldMatchers
+class PropertiesBasedServerConfigTest extends FunSuite with Matchers
 {
   test("readConfigYaml") {
     val config = TranquilityConfig.read(

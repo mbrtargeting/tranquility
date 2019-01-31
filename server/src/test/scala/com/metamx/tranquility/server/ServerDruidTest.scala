@@ -49,7 +49,7 @@ import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
 class ServerDruidTest
-  extends FunSuite with DruidIntegrationSuite with CuratorRequiringSuite with ShouldMatchers with Logging
+  extends FunSuite with DruidIntegrationSuite with CuratorRequiringSuite with Matchers with Logging
 {
   test("Server to Druid, application/json") {
     withDruidStack {

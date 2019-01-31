@@ -25,7 +25,7 @@ import com.metamx.tranquility.tranquilizer.MessageDroppedException
 import org.scalatest.FunSuite
 import org.scalatest.Matchers
 
-class SimpleTranquilizerAdapterTest extends FunSuite with ShouldMatchers
+class SimpleTranquilizerAdapterTest extends FunSuite with Matchers
 {
   test("Simple") {
     val sender = TranquilizerTest.newTranquilizer(TranquilizerTest.newImmediateMemoryBeam(), 100, 1, 0)._1.simple()

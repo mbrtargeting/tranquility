@@ -29,7 +29,7 @@ import org.scalatest.FunSuite
 import org.scalatest.Matchers
 import scala.collection.JavaConverters._
 
-class DruidGuicerTest extends FunSuite with ShouldMatchers
+class DruidGuicerTest extends FunSuite with Matchers
 {
   test("Default ExtensionsConfig") {
     val guicer = new DruidGuicer(new Properties)

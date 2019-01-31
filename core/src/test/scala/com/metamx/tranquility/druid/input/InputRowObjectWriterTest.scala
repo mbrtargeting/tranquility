@@ -30,7 +30,7 @@ import org.scalatest.FunSuite
 import org.scalatest.Matchers
 import scala.collection.JavaConverters._
 
-class InputRowObjectWriterTest extends FunSuite with ShouldMatchers
+class InputRowObjectWriterTest extends FunSuite with Matchers
 {
   val mapBasedRow = new MapBasedInputRow(
     new DateTime("2000"),
