@@ -34,8 +34,8 @@ import org.apache.curator.framework.CuratorFrameworkFactory
 import org.apache.curator.retry.BoundedExponentialBackoffRetry
 import org.apache.flink.api.scala._
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
-import org.apache.flink.test.util.ForkableFlinkMiniCluster
-import org.apache.flink.test.util.TestBaseUtils
+import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration
+import org.apache.flink.test.util.MiniClusterWithClientResource
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.BeforeAndAfter
@@ -46,25 +46,25 @@ import scala.concurrent.duration.FiniteDuration
 class FlinkDruidTest extends FunSuite with DruidIntegrationSuite with CuratorRequiringSuite
 with Logging with BeforeAndAfter
 {
-  var cluster: Option[ForkableFlinkMiniCluster] = None
-  val parallelism                               = 4
+  var cluster: Option[MiniClusterWithClientResource] = None
+  val parallelism = 4
 
   before {
-    val cl = TestBaseUtils.startCluster(
-      1,
-      parallelism,
-      false,
-      false,
-      true
-    )
+    val cl = new MiniClusterWithClientResource(
+      new MiniClusterResourceConfiguration.Builder()
+        .setNumberTaskManagers(1)
+        .setNumberSlotsPerTaskManager(parallelism)
+        .build())
+
+    cl.before()
 
     cluster = Some(cl)
   }
 
   after {
-    val timeout: FiniteDuration = new FiniteDuration(1000, TimeUnit.SECONDS)
-    cluster.foreach(c => TestBaseUtils.stopCluster(c, timeout))
+    cluster.foreach(c => c.after())
   }
+
 
   JulUtils.routeJulThroughSlf4j()
   test("Flink to Druid") {
