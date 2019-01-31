@@ -27,7 +27,7 @@ import io.druid.data.input.impl.TimestampSpec
 import io.druid.query.aggregation.LongSumAggregatorFactory
 import javax.ws.rs.core.MediaType
 import org.scalatest.FunSuite
-import org.scalatest.ShouldMatchers
+import org.scalatest.Matchers
 import scala.collection.JavaConverters._
 
 class InputRowObjectWriterTest extends FunSuite with ShouldMatchers

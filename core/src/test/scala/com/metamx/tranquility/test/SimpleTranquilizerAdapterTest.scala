@@ -23,7 +23,7 @@ import com.metamx.common.scala.untyped._
 import com.metamx.tranquility.beam.MemoryBeam
 import com.metamx.tranquility.tranquilizer.MessageDroppedException
 import org.scalatest.FunSuite
-import org.scalatest.ShouldMatchers
+import org.scalatest.Matchers
 
 class SimpleTranquilizerAdapterTest extends FunSuite with ShouldMatchers
 {

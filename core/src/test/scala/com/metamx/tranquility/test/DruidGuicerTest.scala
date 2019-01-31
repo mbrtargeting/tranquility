@@ -26,7 +26,7 @@ import io.druid.query.aggregation.AggregatorFactory
 import io.druid.query.aggregation.LongSumAggregatorFactory
 import java.util.Properties
 import org.scalatest.FunSuite
-import org.scalatest.ShouldMatchers
+import org.scalatest.Matchers
 import scala.collection.JavaConverters._
 
 class DruidGuicerTest extends FunSuite with ShouldMatchers

@@ -46,7 +46,7 @@ import com.metamx.tranquility.test.common.DruidIntegrationSuite
 import org.apache.curator.framework.CuratorFramework
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
-import org.scalatest.ShouldMatchers
+import org.scalatest.Matchers
 
 class ServerDruidTest
   extends FunSuite with DruidIntegrationSuite with CuratorRequiringSuite with ShouldMatchers with Logging

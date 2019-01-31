@@ -24,7 +24,7 @@ import com.metamx.tranquility.druid.DruidBeams
 import com.metamx.tranquility.druid.DruidEnvironment
 import org.joda.time.Period
 import org.scalatest.FunSuite
-import org.scalatest.ShouldMatchers
+import org.scalatest.Matchers
 
 class PropertiesBasedServerConfigTest extends FunSuite with ShouldMatchers
 {

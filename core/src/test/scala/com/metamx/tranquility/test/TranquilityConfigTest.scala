@@ -29,7 +29,7 @@ import com.metamx.tranquility.typeclass.Timestamper
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.scalatest.FunSuite
-import org.scalatest.ShouldMatchers
+import org.scalatest.Matchers
 
 class TranquilityConfigTest extends FunSuite with ShouldMatchers
 {
