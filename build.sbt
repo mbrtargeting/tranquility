@@ -41,49 +41,49 @@ def dependOnDruid(artifact: String) = {
     exclude("org.apache.curator", "curator-x-discovery")
     exclude("com.lmax", "disruptor") // Pulled in by log4j2, conflicts with the one Storm wants.
     exclude("com.google.code.findbugs", "annotations") // Not needed, unwanted LGPL license (see https://github.com/druid-io/druid/issues/3866)
-    force())
+    )
 }
 
 val coreDependencies = Seq(
   "com.metamx" %% "scala-util" % "1.13.6"
     exclude("log4j", "log4j")
     exclude("mysql", "mysql-connector-java") // Not needed, unwanted GPLv2 license
-    force(),
-  "com.metamx" % "java-util" % "0.28.2" exclude("log4j", "log4j") force(),
-  "io.netty" % "netty" % "3.10.5.Final" force(),
-  "org.apache.curator" % "curator-client" % curatorVersion force(),
-  "org.apache.curator" % "curator-framework" % curatorVersion force(),
-  "org.apache.curator" % "curator-recipes" % curatorVersion force(),
-  "org.apache.curator" % "curator-x-discovery" % curatorVersion force(),
-  "com.twitter" %% "util-core" % twitterUtilVersion force(),
-  "com.twitter" %% "finagle-core" % finagleVersion force(),
-  "com.twitter" %% "finagle-http" % finagleVersion force(),
-  "com.github.finagle" %% "finagle-http-auth" % finagleHttpAuthVersion force(),
-  "org.slf4j" % "slf4j-api" % "1.7.25" force() force(),
-  "org.slf4j" % "jul-to-slf4j" % "1.7.25" force() force(),
-  "org.apache.httpcomponents" % "httpclient" % apacheHttpVersion force(),
-  "org.apache.httpcomponents" % "httpcore" % apacheHttpVersion force(),
+    ,
+  "com.metamx" % "java-util" % "0.28.2" exclude("log4j", "log4j"),
+  "io.netty" % "netty" % "3.10.5.Final",
+  "org.apache.curator" % "curator-client" % curatorVersion,
+  "org.apache.curator" % "curator-framework" % curatorVersion,
+  "org.apache.curator" % "curator-recipes" % curatorVersion,
+  "org.apache.curator" % "curator-x-discovery" % curatorVersion,
+  "com.twitter" %% "util-core" % twitterUtilVersion,
+  "com.twitter" %% "finagle-core" % finagleVersion,
+  "com.twitter" %% "finagle-http" % finagleVersion,
+  "com.github.finagle" %% "finagle-http-auth" % finagleHttpAuthVersion,
+  "org.slf4j" % "slf4j-api" % "1.7.25",
+  "org.slf4j" % "jul-to-slf4j" % "1.7.25",
+  "org.apache.httpcomponents" % "httpclient" % apacheHttpVersion,
+  "org.apache.httpcomponents" % "httpcore" % apacheHttpVersion,
 
   // Replacement for com.google.code.findbugs:annotations (see https://github.com/druid-io/druid/issues/3866)
-  "com.google.code.findbugs" % "jsr305" % "2.0.1" force(),
+  "com.google.code.findbugs" % "jsr305" % "2.0.1",
 
   // Curator uses Jackson 1.x internally, and older version cause problems with service discovery.
-  "org.codehaus.jackson" % "jackson-core-asl" % jacksonOneVersion force(),
-  "org.codehaus.jackson" % "jackson-mapper-asl" % jacksonOneVersion force(),
+  "org.codehaus.jackson" % "jackson-core-asl" % jacksonOneVersion,
+  "org.codehaus.jackson" % "jackson-mapper-asl" % jacksonOneVersion,
 
   // We use Jackson 2.x internally (and so does Druid).
-  "com.fasterxml.jackson.core" % "jackson-core" % jacksonTwoVersion force(),
-  "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonTwoVersion force(),
-  "com.fasterxml.jackson.core" % "jackson-databind" % jacksonTwoVersion force(),
-  "com.fasterxml.jackson.dataformat" % "jackson-dataformat-smile" % jacksonTwoVersion force(),
-  "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % jacksonTwoVersion force(),
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonTwoModuleScalaVersion force()
+  "com.fasterxml.jackson.core" % "jackson-core" % jacksonTwoVersion,
+  "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonTwoVersion,
+  "com.fasterxml.jackson.core" % "jackson-databind" % jacksonTwoVersion,
+  "com.fasterxml.jackson.dataformat" % "jackson-dataformat-smile" % jacksonTwoVersion,
+  "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % jacksonTwoVersion,
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonTwoModuleScalaVersion 
 ) ++ Seq(
   dependOnDruid("druid-server"),
-  "com.google.inject" % "guice" % guiceVersion force(),
-  "com.google.inject.extensions" % "guice-servlet" % guiceVersion force(),
-  "com.google.inject.extensions" % "guice-multibindings" % guiceVersion force(),
-  "javax.validation" % "validation-api" % "1.1.0.Final" force()
+  "com.google.inject" % "guice" % guiceVersion,
+  "com.google.inject.extensions" % "guice-servlet" % guiceVersion,
+  "com.google.inject.extensions" % "guice-multibindings" % guiceVersion,
+  "javax.validation" % "validation-api" % "1.1.0.Final" 
 )
 
 val loggingDependencies = Seq(
@@ -100,7 +100,7 @@ val flinkDependencies = {
     "org.apache.flink" %% "flink-streaming-scala" % flinkVersion % "optional"
     exclude("log4j", "log4j")
     exclude("org.slf4j", "slf4j-log4j12")
-    force()
+    
   )
 }
 
@@ -109,7 +109,7 @@ val stormDependencies = Seq(
     exclude("javax.jms", "jms")
     exclude("ch.qos.logback", "logback-classic")
     exclude("org.slf4j", "log4j-over-slf4j")
-    force(),
+    ,
   "com.twitter" %% "chill" % "0.9.3" % "optional"
 )
 
@@ -121,7 +121,7 @@ val sparkDependencies = Seq(
   "org.apache.spark" %% "spark-streaming" % sparkVersion % "optional"
     exclude("org.slf4j", "log4j-over-slf4j")
     exclude("org.slf4j", "slf4j-log4j12")
-    force()
+    
 )
 
 val serverDependencies = Seq(
@@ -134,15 +134,15 @@ val kafkaDependencies = Seq(
   "org.apache.kafka" %% "kafka" % kafkaVersion
     exclude("org.slf4j", "slf4j-log4j12")
     exclude("log4j", "log4j")
-    force(),
+    ,
   "io.airlift" % "airline" % airlineVersion
 ) ++ loggingDependencies
 
 val coreTestDependencies = Seq(
   "org.scalatest" %% "scalatest" % "3.0.5" % "test",
   dependOnDruid("druid-services") % "test",
-  "org.apache.curator" % "curator-test" % curatorVersion % "test" exclude("log4j", "log4j") force(),
-  "com.sun.jersey" % "jersey-servlet" % "1.17.1" % "test" force(),
+  "org.apache.curator" % "curator-test" % curatorVersion % "test" exclude("log4j", "log4j"),
+  "com.sun.jersey" % "jersey-servlet" % "1.17.1" % "test",
   "junit" % "junit" % "4.12" % "test",
   "com.novocode" % "junit-interface" % "0.11" % "test",
   "ch.qos.logback" % "logback-core" % "1.1.2" % "test",
@@ -157,7 +157,7 @@ val flinkTestDependencies = {
   Seq("org.apache.flink" % "flink-core" % flinkVersion % "test" classifier "tests",
     "org.apache.flink" %% "flink-runtime" % flinkVersion % "test" classifier "tests",
     "org.apache.flink" %% "flink-test-utils" % flinkVersion % "test"
-  ).map(_ exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-log4j12") force()) ++
+  ).map(_ exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-log4j12") ) ++
     loggingDependencies.map(_ % "test")
 }
 
@@ -165,7 +165,7 @@ val samzaTestDependencies = {
   Seq(
     "org.apache.samza" %% "samza-core" % samzaVersion % "test",
     "org.apache.samza" %% "samza-kafka" % samzaVersion % "test"
-  ).map(_ exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-log4j12") force()) ++
+  ).map(_ exclude("log4j", "log4j") exclude("org.slf4j", "slf4j-log4j12") ) ++
     loggingDependencies.map(_ % "test")
 }
 
