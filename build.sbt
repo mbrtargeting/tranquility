@@ -10,7 +10,7 @@ concurrentRestrictions in Global += Tags.limitAll(1)
 
 val jacksonOneVersion = "1.9.13"
 // See https://github.com/druid-io/druid/pull/1669, https://github.com/druid-io/tranquility/pull/81 before upgrading Jackson
-val jacksonTwoVersion = "2.4.6"
+val jacksonTwoVersion = "2.9.8"
 val jacksonTwoModuleScalaVersion = "2.9.8"
 val druidVersion = "0.9.2"
 val curatorVersion = "2.12.0"
