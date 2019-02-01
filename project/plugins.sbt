@@ -9,3 +9,5 @@ addSbtPlugin("com.github.gseitz" % "sbt-release" % "latest.release")
 addSbtPlugin("com.jsuereth" % "sbt-pgp" % "latest.release")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "latest.release")
+
+addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.9.2")

@@ -1,5 +1,7 @@
 scalaVersion in ThisBuild := "2.12.8"
 
+conflictManager in ThisBuild := ConflictManager.latestRevision
+
 // Disable parallel execution, the various Druid oriented tests need to claim ports
 parallelExecution in ThisBuild := false
 
