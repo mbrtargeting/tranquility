@@ -20,15 +20,17 @@ package com.metamx.tranquility.finagle
 
 import com.metamx.tranquility.beam.Beam
 import com.twitter.finagle.Service
-import com.twitter.util.Future
-import com.twitter.util.Time
+import com.twitter.util.{Future, Time}
 
 /**
  * Bridges Beams with Finagle Services.
  */
 class BeamService[A](beam: Beam[A]) extends Service[Seq[A], Int]
 {
-  def apply(request: Seq[A]): Future[Int] = beam.sendBatch(request).map(_.size)
+  def apply(request: Seq[A]): Future[Int] = {
+    val results = beam.sendAll(request)
+    Future.collect(results).map(results => results.count(result => result.sent))
+  }
 
   override def close(deadline: Time) = beam.close()
 }

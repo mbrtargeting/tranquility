@@ -18,11 +18,11 @@
  */
 package com.metamx.tranquility.druid
 
-import io.druid.data.input.impl.SpatialDimensionSchema
-import io.druid.data.input.impl.TimestampSpec
+import io.druid.data.input.impl.{NewSpatialDimensionSchema, SpatialDimensionSchema, TimestampSpec}
 import io.druid.granularity.QueryGranularity
 import io.druid.query.aggregation.AggregatorFactory
 import java.{util => ju}
+
 import scala.collection.JavaConverters._
 
 /**
@@ -82,17 +82,17 @@ sealed abstract class DruidDimensions
 
 sealed abstract class DruidSpatialDimension
 {
-  def schema: SpatialDimensionSchema
+  def schema: NewSpatialDimensionSchema
 }
 
 case class SingleFieldDruidSpatialDimension(name: String) extends DruidSpatialDimension
 {
-  override def schema = new SpatialDimensionSchema(name, List.empty[String].asJava)
+  override def schema = new NewSpatialDimensionSchema(name, List.empty[String].asJava)
 }
 
 case class MultipleFieldDruidSpatialDimension(name: String, fieldNames: Seq[String]) extends DruidSpatialDimension
 {
-  override def schema = new SpatialDimensionSchema(name, fieldNames.asJava)
+  override def schema = new NewSpatialDimensionSchema(name, fieldNames.asJava)
 }
 
 case class SpecificDruidDimensions(
@@ -110,7 +110,7 @@ case class SpecificDruidDimensions(
   }
 
   override def knownDimensions: Seq[String] = {
-    dimensions ++ spatialDimensions.map(_.schema.getDimName)
+    dimensions ++ spatialDimensions.map(_.schema.getName)
   }
 
   /**
@@ -135,7 +135,7 @@ case class SchemalessDruidDimensions(
   }
 
   override def knownDimensions: Seq[String] = {
-    spatialDimensions.map(_.schema.getDimName)
+    spatialDimensions.map(_.schema.getName)
   }
 
   /**

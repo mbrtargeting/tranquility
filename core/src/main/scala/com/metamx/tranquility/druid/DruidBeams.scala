@@ -297,12 +297,17 @@ object DruidBeams extends Logging
     val mkparser = () => makeFireDepartment(config).getDataSchema.getParser
     val parseSpec = fireDepartment.getDataSchema.getParser.getParseSpec
     val timestampSpec = parseSpec.getTimestampSpec
-    val spatialDimensions = j2s(parseSpec.getDimensionsSpec.getSpatialDimensions) map {
+    val spatialDimensionsPartPart:Seq[DimensionSchema] = j2s(parseSpec.getDimensionsSpec.getDimensions)
+    val spatialDimensionsPart:Seq[NewSpatialDimensionSchema] = spatialDimensionsPartPart.flatMap{
+        case y: NewSpatialDimensionSchema => Some(y);
+        case _ => None;
+      }
+    val spatialDimensions = spatialDimensionsPart map {
       spatial =>
         spatial.getDims match {
-          case null => SingleFieldDruidSpatialDimension(spatial.getDimName)
-          case xs if xs.isEmpty => SingleFieldDruidSpatialDimension(spatial.getDimName)
-          case xs => MultipleFieldDruidSpatialDimension(spatial.getDimName, xs.asScala)
+          case null => SingleFieldDruidSpatialDimension(spatial.getName)
+          case xs if xs.isEmpty => SingleFieldDruidSpatialDimension(spatial.getName)
+          case xs => MultipleFieldDruidSpatialDimension(spatial.getName, xs.asScala)
         }
     }
     val rollup = DruidRollup(

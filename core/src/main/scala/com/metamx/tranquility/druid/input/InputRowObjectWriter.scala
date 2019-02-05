@@ -47,7 +47,7 @@ class InputRowObjectWriter(
     val metricNames = aggregators.flatMap(_.requiredFields().asScala).distinct
     val spatialDimensionNames = spatialDimensions flatMap { spatial =>
       Option(spatial.schema.getDims).map(_.asScala).getOrElse(Nil) ++
-        Option(spatial.schema.getDimName)
+        Option(spatial.schema.getName)
     }
     Set() ++ metricNames ++ spatialDimensionNames
   }
