@@ -104,7 +104,7 @@ public class JavaApiTest
     );
     Assert.assertTrue(rollup.dimensions() instanceof SchemalessDruidDimensions);
     Assert.assertEquals("column", ((SchemalessDruidDimensions) rollup.dimensions()).dimensionExclusions().iterator().next());
-    Assert.assertEquals("coord.geo", rollup.dimensions().spatialDimensions().iterator().next().schema().getDimName());
+    Assert.assertEquals("coord.geo", rollup.dimensions().spatialDimensions().iterator().next().schema().getName());
   }
 
   @Test
