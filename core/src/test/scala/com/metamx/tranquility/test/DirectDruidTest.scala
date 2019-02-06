@@ -145,7 +145,7 @@ class DirectDruidTest
           runTestQueriesAndAssertions(broker, timekeeper)
         }
         catch {
-          case NonFatal(e) =>
+          case scala.util.control.NonFatal(e) =>
             throw new ISE(e, "Failed test")
         }
         finally {
@@ -192,7 +192,7 @@ class DirectDruidTest
           runTestQueriesAndAssertions(broker, timekeeper)
         }
         catch {
-          case NonFatal(e) =>
+          case scala.util.control.NonFatal(e) =>
             throw new ISE(e, "Failed test")
         }
         finally {
@@ -229,7 +229,7 @@ class DirectDruidTest
           runTestQueriesAndAssertions(broker, timekeeper)
         }
         catch {
-          case NonFatal(e) =>
+          case scala.util.control.NonFatal(e) =>
             throw new ISE(e, "Failed test")
         }
         finally {
@@ -263,7 +263,7 @@ class DirectDruidTest
           runTestQueriesAndAssertions(broker, timekeeper)
         }
         catch {
-          case NonFatal(e) =>
+          case scala.util.control.NonFatal(e) =>
             throw new ISE(e, "Failed test")
         }
         finally {
@@ -296,7 +296,7 @@ class DirectDruidTest
           runTestQueriesAndAssertions(broker, timekeeper)
         }
         catch {
-          case NonFatal(e) =>
+          case scala.util.control.NonFatal(e) =>
             throw new ISE(e, "Failed test")
         }
         finally {
@@ -330,7 +330,7 @@ class DirectDruidTest
           runTestQueriesAndAssertions(broker, timekeeper)
         }
         catch {
-          case NonFatal(e) =>
+          case scala.util.control.NonFatal(e) =>
             throw new ISE(e, "Failed test")
         }
         finally {
@@ -363,7 +363,7 @@ class DirectDruidTest
           runTestQueriesAndAssertions(broker, timekeeper)
         }
         catch {
-          case NonFatal(e) =>
+          case scala.util.control.NonFatal(e) =>
             throw new ISE(e, "Failed test")
         }
         finally {
@@ -397,7 +397,7 @@ class DirectDruidTest
           runTestQueriesAndAssertions(broker, timekeeper)
         }
         catch {
-          case NonFatal(e) =>
+          case scala.util.control.NonFatal(e) =>
             throw new ISE(e, "Failed test")
         }
         finally {
@@ -431,7 +431,7 @@ class DirectDruidTest
           runTestQueriesAndAssertions(broker, timekeeper)
         }
         catch {
-          case NonFatal(e) =>
+          case scala.util.control.NonFatal(e) =>
             throw new ISE(e, "Failed test")
         }
         finally {
@@ -465,7 +465,7 @@ class DirectDruidTest
           runTestQueriesAndAssertions(broker, timekeeper)
         }
         catch {
-          case NonFatal(e) =>
+          case scala.util.control.NonFatal(e) =>
             throw new ISE(e, "Failed test")
         }
         finally {
@@ -501,7 +501,7 @@ class DirectDruidTest
           runTestQueriesAndAssertions(broker, timekeeper)
         }
         catch {
-          case NonFatal(e) =>
+          case scala.util.control.NonFatal(e) =>
             throw new ISE(e, "Failed test")
         }
         finally {
